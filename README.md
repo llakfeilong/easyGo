@@ -60,7 +60,6 @@ func Test(m *httpMux.MuxContext) {
 3. 路由示例
 
         router:=httpMux.NewMux()
-	
 	router.GET("/download/getFileByteArray",controller.GetFileByteArray)
 	
 	router.GET("/v1/download/getFileBase64",controller.GetFileBase64)
