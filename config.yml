@@ -1,0 +1,41 @@
+#数据库配置
+gorm:
+  username: root
+  password: 3100386a
+  dbname: tenfine_fileservice
+  address: 127.0.0.1:3306
+  sqlincrementpath: "./sqlScript/increment/"
+  sqlinitpath: "./sqlScript/initial/"
+
+#文件存储位置
+storagePath:
+  winStorage: d://tenfineFiles/
+  linuxStorage: /tenfineFiles/
+
+#web启动配置
+web:
+  port: 9222
+
+#日志配置
+log:
+  path: /log/
+  level: "debug"   #debug|prod
+  name: fileservice.log
+
+##nacos配置
+nacos:
+  clientConfig:
+    NamespaceId: "th_jtest"
+    TimeoutMs: 5000
+    LogDir: "d:\\tmp\\log"
+    CacheDir: "d:\\tmp\\cache"
+    LogLevel: "debug"
+  serverConfig:
+    IpAddr: "192.168.3.182"
+    Port : 8848
+  registerConfig:
+    Ip: "192.168.41.13"
+    ServiceName: "tenfine-file-service"
+    ClusterName: "DEFAULT"
+    GroupName: "DEFAULT_GROUP"
+    Weight: "1"
