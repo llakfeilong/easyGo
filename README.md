@@ -4,13 +4,20 @@ Fast and easy development go
 
 如果大家有什么好建议欢迎留言
 
+
+
 1.结构体校验使用示例 
+
+
 
 //需要校验的类
 type Tests struct {
 	Id  string `json:"id" @NotNull:"DefaultMsg:id不能为空" @Length:"Value:2;DefaultMsg:id长度必须少于2位"`
 	Age int    `json:"age" @NotNull:"DefaultMsg:Age不能为空" @Length:"Value:2;DefaultMsg:Age长度必须少于2位"`
 }
+
+
+
 //http controller
 func Test(m *httpMux.MuxContext) {
 	var test Tests
@@ -35,6 +42,9 @@ func Test(m *httpMux.MuxContext) {
 	m.WritedString(true, "1000", "sucess", validtor.ErrorResults)
 	log.Println("返回结果:", string(b))
 }
+
+
+
 
 2. 路由示例
 
