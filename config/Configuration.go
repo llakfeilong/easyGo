@@ -19,6 +19,12 @@ func GetCfg() *Config {
 	}
 }
 
+//设置配置路径
+func (cfg *Config) SetConfigPath(path string) {
+	cfg.FilePath = path
+}
+
+//加载配置
 func (cfg *Config) LoadConfig() {
 	viper.SetConfigType("yml")
 	viper.SetConfigFile(cfg.FilePath)

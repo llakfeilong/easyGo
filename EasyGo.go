@@ -5,22 +5,12 @@ import (
 	"github.com/llakfeilong/EasyGo/httpMux"
 )
 
-type EasyGo struct {
-	Mux    *httpMux.Mux
-	Config *config.Config
+//获取路由
+func Default() *httpMux.Mux {
+	return httpMux.NewMux()
 }
 
-var easyGo = &EasyGo{
-	Mux:    httpMux.NewMux(),
-	Config: config.GetCfg(),
-}
-
-//获取单例
-func Default() *EasyGo {
-	return easyGo
-}
-
-//设置配置文件路径
-func (easy *EasyGo) SetConfigPath(path string) {
-	easy.Config.FilePath = path
+//获取配置
+func Config() *config.Config {
+	return config.GetCfg()
 }
