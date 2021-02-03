@@ -1,8 +1,8 @@
 package EasyGo
 
 import (
-	"EasyGo/config"
-	"EasyGo/httpMux"
+	"github.com/llakfeilong/EasyGo/config"
+	"github.com/llakfeilong/EasyGo/httpMux"
 )
 
 type EasyGo struct {

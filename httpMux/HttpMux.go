@@ -1,8 +1,8 @@
 package httpMux
 
 import (
-	"EasyGo/errorType"
 	"fmt"
+	"github.com/llakfeilong/EasyGo/errorType"
 	"log"
 	"net/http"
 	"strings"
