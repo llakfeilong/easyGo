@@ -24,9 +24,9 @@ type Tests struct {
 func Test(m *httpMux.MuxContext) {
 
 	var test Tests
-	
+
 	//获取post请求JSON 并解析到相应结构体
-	
+
 	json.Unmarshal(m.GetPostJson(), &test)
 	
 	log.Println("###id =", test.Id, "age:", test.Age)
