@@ -1,12 +1,25 @@
-package httpMux
+package EasyGo
 
 import (
 	"fmt"
-	"github.com/llakfeilong/EasyGo/errorType"
+	"github.com/llakfeilong/easyGo/config"
+	"github.com/llakfeilong/easyGo/errorType"
 	"log"
 	"net/http"
 	"strings"
 )
+
+
+
+//获取路由
+func Default() *Mux {
+	return NewMux()
+}
+
+//获取配置
+func Config() *config.Config {
+	return config.GetCfg()
+}
 
 type Mux struct {
 	nodes []*Node

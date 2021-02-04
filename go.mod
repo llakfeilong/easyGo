@@ -1,4 +1,4 @@
-module github.com/llakfeilong/EasyGo
+module github.com/llakfeilong/easyGo
 
 go 1.13
 

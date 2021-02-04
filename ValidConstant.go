@@ -1,4 +1,4 @@
-package httpMux
+package EasyGo
 
 //校验枚举
 const (

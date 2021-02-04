@@ -1,4 +1,4 @@
-package httpMux
+package EasyGo
 
 type Node struct {
 	path          string
