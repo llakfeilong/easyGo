@@ -1,4 +1,4 @@
-package EasyGo
+package easyGo
 
 type Node struct {
 	path          string

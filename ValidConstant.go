@@ -1,4 +1,4 @@
-package EasyGo
+package easyGo
 
 //校验枚举
 const (

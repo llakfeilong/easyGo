@@ -1,15 +1,13 @@
-package EasyGo
+package easyGo
 
 import (
 	"fmt"
-	"github.com/llakfeilong/easyGo/config"
-	"github.com/llakfeilong/easyGo/errorType"
+	"github.com/llakfeilong/EasyGo/config"
+	"github.com/llakfeilong/EasyGo/errorType"
 	"log"
 	"net/http"
 	"strings"
 )
-
-
 
 //获取路由
 func Default() *Mux {
