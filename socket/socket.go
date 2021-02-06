@@ -20,30 +20,32 @@ func NewSocket() *Socket {
 //通道
 type ChannelFuture struct {
 	Port           string        //监听端口
-	Timeout        time.Duration //没有数据交互的超时时间
+	ReadTimeout    time.Duration //服务端读取不到数据超时时间
 	BufferSize     int           //缓冲区大小
-	ChannelHandler ChannelHandler
+	ChannelHandler channelHandler
 }
 
-//缓冲区数据结构体
-type ByteBuf struct {
+//通道入站处理程序
+type ChannelInboundHandler struct {
 	ByteBuffer []byte
+	Conn       net.Conn
 }
 
-type ChannelHandler func(b *ByteBuf)
+type channelHandler func(c *ChannelInboundHandler)
 
-func (s *Socket) MakeTcpChannel(port string, bufferSize int, timeout time.Duration, handler ChannelHandler) *ChannelFuture {
+func (s *Socket) MakeTcpChannel(port string, bufferSize int, readTimeout time.Duration, handler channelHandler) *ChannelFuture {
 	return &ChannelFuture{
 		Port:           port,
-		Timeout:        timeout,
+		ReadTimeout:    readTimeout,
 		BufferSize:     bufferSize,
 		ChannelHandler: handler,
 	}
 }
 
-func newByteBuf(buf []byte) *ByteBuf {
-	return &ByteBuf{
+func newChannelInboundHandler(buf []byte, conn net.Conn) *ChannelInboundHandler {
+	return &ChannelInboundHandler{
 		ByteBuffer: buf,
+		Conn:       conn,
 	}
 }
 
@@ -57,29 +59,33 @@ func (s *Socket) BindServer(channels ...*ChannelFuture) {
 
 //设置TCP监听地址
 func (s *Socket) ListenTcp() {
+	log.Println("###开始监听")
 	for _, channel := range s.ChannelFutures {
-		log.Println("###监听端口:" + channel.Port)
-		addr, _ := net.ResolveTCPAddr("tcp4", s.Address+":"+channel.Port)
-		listener, _ := net.ListenTCP("tcp", addr)
-		for {
-			conn, err := listener.Accept()
-			if err != nil {
-				continue
+		go func(channel *ChannelFuture) {
+			log.Println("###监听端口:" + channel.Port)
+			addr, _ := net.ResolveTCPAddr("tcp4", s.Address+":"+channel.Port)
+			listener, _ := net.ListenTCP("tcp", addr)
+			for {
+				conn, err := listener.Accept()
+				if err != nil {
+					continue
+				}
+				go handlerClient(conn, channel)
 			}
-			go handlerClient(conn, channel)
-		}
+		}(channel)
 	}
-
+	select {}
 }
 
 //处理客户端消息
 func handlerClient(conn net.Conn, c *ChannelFuture) {
-	if c.Timeout != 0 {
-		conn.SetReadDeadline(time.Now().Add(c.Timeout)) //设置连接超时时间
-	}
+
 	buf := make([]byte, c.BufferSize) //设置读取数据缓冲区
 	defer conn.Close()                // close connection before exit
 	for {
+		if c.ReadTimeout != 0 {
+			conn.SetReadDeadline(time.Now().Add(c.ReadTimeout)) //设置连接超时时间
+		}
 		read_len, err := conn.Read(buf) //读取客户端发来的数据
 		if err != nil {
 			log.Println(err)
@@ -90,7 +96,7 @@ func handlerClient(conn net.Conn, c *ChannelFuture) {
 			break
 		}
 		//把数据回调到handler作处理
-		c.ChannelHandler(newByteBuf(buf[:read_len]))
+		c.ChannelHandler(newChannelInboundHandler(buf[:read_len], conn))
 		////转成16进制string
 		//result := hex.EncodeToString(buf[:read_len])
 		//log.Println(result) //打印数据

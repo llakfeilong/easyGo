@@ -93,11 +93,14 @@ func (m *Mux) httpInterceptor(handler MuxHandler) http.HandlerFunc {
  * 启动服务
  */
 func (m *Mux) Run(address string) {
-	mux := http.NewServeMux()
-	for _, node := range m.nodes {
-		mux.HandleFunc(node.path, m.httpInterceptor(node.handler))
-	}
-	if err := http.ListenAndServe(address, mux); err != nil {
-		fmt.Println("start http server fail:", err)
-	}
+	go func() {
+		mux := http.NewServeMux()
+		for _, node := range m.nodes {
+			mux.HandleFunc(node.path, m.httpInterceptor(node.handler))
+		}
+		if err := http.ListenAndServe(address, mux); err != nil {
+			fmt.Println("start http server fail:", err)
+		}
+	}()
+
 }
