@@ -1,7 +1,7 @@
 package easyGo
 
 import (
-	"github.com/llakfeilong/EasyGo/socket"
+	"github.com/llakfeilong/easyGo/socket"
 	"log"
 	"time"
 )

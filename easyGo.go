@@ -2,9 +2,9 @@ package easyGo
 
 import (
 	"fmt"
-	"github.com/llakfeilong/EasyGo/config"
-	"github.com/llakfeilong/EasyGo/errorType"
-	"github.com/llakfeilong/EasyGo/socket"
+	"github.com/llakfeilong/easyGo/config"
+	"github.com/llakfeilong/easyGo/errorType"
+	"github.com/llakfeilong/easyGo/socket"
 	"log"
 	"net/http"
 	"strings"
