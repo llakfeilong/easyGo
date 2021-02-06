@@ -4,19 +4,25 @@ import (
 	"fmt"
 	"github.com/llakfeilong/EasyGo/config"
 	"github.com/llakfeilong/EasyGo/errorType"
+	"github.com/llakfeilong/EasyGo/socket"
 	"log"
 	"net/http"
 	"strings"
 )
 
 //获取路由
-func Default() *Mux {
+func DefaultMux() *Mux {
 	return NewMux()
 }
 
 //获取配置
 func Config() *config.Config {
 	return config.GetCfg()
+}
+
+//获取socket
+func Socket() *socket.Socket {
+	return socket.NewSocket()
 }
 
 type Mux struct {
